@@ -1,4 +1,1 @@
-This is your new Play application
-=================================
-
-This file will be packaged with your application, when using `activator dist`.
+In this project, i show you how to integrate AspectJ annotation and Spring AOP with Play Framework.
