@@ -1,7 +1,9 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import controllers.UserController;
+import daos.MonitoringDao;
 import daos.UserDao;
+import models.Monitoring;
 import models.Post;
 import models.User;
 import org.junit.Test;
@@ -25,17 +27,17 @@ public class UserControllerTest {
 
         start(fakeApplication(globalTest));
 
-        globalTest.applicationContext.getBean(UserService.class).create(new User("Saeed"));
-        globalTest.applicationContext.getBean(UserService.class).create(new User("Hamid"));
+        TestUtils.routeWithOnError(fakeRequest(GET, "/test"), globalTest);
 
-        Result result = route(fakeRequest(GET, "/users"));
-        assertThat(result).isNotNull();
-        assertThat(status(result)).isEqualTo(OK);
+        TestUtils.routeWithOnError(fakeRequest(GET, "/users"), globalTest);
 
-        List<User> users = new ObjectMapper().readValue(contentAsString(result),
-                TypeFactory.defaultInstance().constructCollectionType(List.class, User.class));
+        assertThat(globalTest.applicationContext.getBean(UserService.class).findAllUser().size()).isEqualTo(0);
 
-        assertThat(users.size()).isEqualTo(2);
+        List<Monitoring> monitorings = globalTest.applicationContext.getBean(MonitoringDao.class).getAll();
+
+        monitorings.stream().forEach(m -> System.out.println(m.getId()+"-"+m.getRequestId()+"-"+m.getRawData()));
+
+        assertThat(monitorings.size()).isEqualTo(4);
     }
 
 }

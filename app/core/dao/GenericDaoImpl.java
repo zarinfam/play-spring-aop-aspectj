@@ -20,8 +20,9 @@ public abstract class GenericDaoImpl<T, ID extends Serializable> implements Gene
     }
 
     @Override
-    public void persist(T entity) {
+    public T persist(T entity) {
         entityManager.persist(entity);
+        return entity;
     }
 
     @Override

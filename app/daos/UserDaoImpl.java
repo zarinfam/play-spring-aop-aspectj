@@ -16,4 +16,12 @@ public class UserDaoImpl extends GenericDaoImpl<User, Long> implements UserDao{
     protected Class<User> getEntityClass() {
         return User.class;
     }
+
+    @Override
+    public void add(User entity) {
+        getEntityManager().persist(entity);
+//        throw new  RuntimeException();
+    }
+
+
 }

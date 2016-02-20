@@ -2,10 +2,7 @@ package controllers;
 
 import models.Post;
 import play.libs.Json;
-import play.mvc.BodyParser;
-import play.mvc.Controller;
-import play.mvc.Result;
-import play.mvc.Results;
+import play.mvc.*;
 import services.UserService;
 
 import javax.inject.Inject;
@@ -16,13 +13,25 @@ import java.util.Date;
 import java.util.List;
 
 @Named
+@With(LogAction.class)
 public class UserController {
 
     @Inject
     private UserService userService;
 
     public Result listUsers() {
-        return Results.ok(Json.toJson(userService.findAllUser()));
+        System.out.println("------listUsers----------"+Controller.request().getQueryString("id"));
+        userService.testTransaction();
+        System.out.println("return result");
+        return Results.ok(Json.parse("{\"firstName\":\"Foo\", \"lastName\":\"Bar\", \"age\":13}"));
+    }
+
+
+    public Result listMonitoring() throws InterruptedException {
+        Thread.sleep(5000l);
+        System.out.println("------listMonitoring----------"+Controller.request().getQueryString("id"));
+        userService.testMonitoring();
+        return Results.badRequest();
     }
 
 

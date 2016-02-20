@@ -12,4 +12,7 @@ public interface UserService {
     List<User> findAllUser();
 
     void create(User user);
+    void testTransaction();
+
+    void testMonitoring() throws InterruptedException;
 }

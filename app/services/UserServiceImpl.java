@@ -29,4 +29,18 @@ public class UserServiceImpl implements UserService {
     public void create(User user) {
         userDao.persist(user);
     }
+
+    @Override
+    public void testTransaction() {
+        userDao.add(new User("Saeed"));
+        userDao.add(new User("Mohsen"));
+        userDao.add(new User("Mohsen"));
+    }
+
+    @Override
+    public void testMonitoring() throws InterruptedException {
+
+    }
+
+
 }
